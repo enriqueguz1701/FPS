@@ -12,14 +12,18 @@ public class Enemigo : MonoBehaviour
     [SerializeField] bool persiguiendoJugador;
 
     [SerializeField] RaycastHit raycast;
-    [SerializeField] float distanciaVision, anguloVision;
+    [SerializeField] float distanciaVision, anguloVision, distanciaAtacarJugador;
     [SerializeField] bool atacando;
+
+    Coroutine corrutinaAtacar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         puntoActual = 0;    
         agent = GetComponent<NavMeshAgent>();
         agent.SetDestination(puntos[puntoActual].position);
+
+        
 
         jugador = FindAnyObjectByType<JugadorControl>().transform;
     }
@@ -32,9 +36,30 @@ public class Enemigo : MonoBehaviour
         {
             persiguiendoJugador = true;
             agent.SetDestination(jugador.position);
+            if(agent.remainingDistance < distanciaAtacarJugador && !atacando)
+            {
+                corrutinaAtacar = StartCoroutine(Atacar());
+            }
+            else if(agent.remainingDistance >= distanciaAtacarJugador)
+            {
+                if (corrutinaAtacar != null)
+                {
+                    StopCoroutine(corrutinaAtacar);
+                }
+                atacando = false;
+            }
         }
         else
         {
+            if(corrutinaAtacar != null)
+            {
+                StopCoroutine(corrutinaAtacar);
+            }
+            
+            if (persiguiendoJugador)
+            {
+                agent.SetDestination(puntos[puntoActual].position);
+            }
             persiguiendoJugador = false;
             if(agent.remainingDistance <= agent.stoppingDistance)
             {
@@ -86,11 +111,13 @@ public class Enemigo : MonoBehaviour
 
     IEnumerator Atacar()
     {
+        Debug.Log("Comienzo a atacar");
         atacando = true;
         JugadorControl jugadorControl = jugador.GetComponent<JugadorControl>(); 
         while (true)
         {
             yield return new WaitForSeconds(1);
+            Debug.Log("Ataco al jugador");
             jugadorControl.QuitarVida();
         }
         
