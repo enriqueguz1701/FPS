@@ -12,7 +12,7 @@ public class Enemigo : MonoBehaviour
     [SerializeField] bool persiguiendoJugador;
 
     [SerializeField] RaycastHit raycast;
-    [SerializeField] float campoVision, anguloVision;
+    [SerializeField] float distanciaVision, anguloVision;
     [SerializeField] bool atacando;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,7 +59,7 @@ public class Enemigo : MonoBehaviour
 
         //Si esa distancia es más grande que el campo de visión del enemigo quiere
         //decir que no lo está viendo
-        if (distancia > campoVision)
+        if (distancia > distanciaVision)
             return false;
 
         //Ahora calculo el ángulo que hay entre el enemigo y el jugador
