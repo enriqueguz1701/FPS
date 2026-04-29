@@ -38,6 +38,7 @@ public class Enemigo : MonoBehaviour
             agent.SetDestination(jugador.position);
             if(agent.remainingDistance < distanciaAtacarJugador && !atacando)
             {
+                atacando = true;
                 corrutinaAtacar = StartCoroutine(Atacar());
             }
             else if(agent.remainingDistance >= distanciaAtacarJugador)
@@ -111,13 +112,11 @@ public class Enemigo : MonoBehaviour
 
     IEnumerator Atacar()
     {
-        Debug.Log("Comienzo a atacar");
-        atacando = true;
+      
         JugadorControl jugadorControl = jugador.GetComponent<JugadorControl>(); 
         while (true)
         {
             yield return new WaitForSeconds(1);
-            Debug.Log("Ataco al jugador");
             jugadorControl.QuitarVida();
         }
         

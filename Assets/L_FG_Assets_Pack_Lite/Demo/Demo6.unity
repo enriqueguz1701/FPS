@@ -6793,8 +6793,9 @@ MonoBehaviour:
   puntoActual: 0
   jugador: {fileID: 0}
   persiguiendoJugador: 0
-  campoVision: 10
+  distanciaVision: 10
   anguloVision: 120
+  distanciaAtacarJugador: 4
   atacando: 0
 --- !u!4 &303486115 stripped
 Transform:
