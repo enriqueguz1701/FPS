@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemigo : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class Enemigo : MonoBehaviour
     [SerializeField] bool atacando;
 
     Coroutine corrutinaAtacar;
+
+    [SerializeField] int vida = 100;
+    [SerializeField] Image barraVida;
+    [SerializeField] float escala;
+    [SerializeField] GameObject[] objetosCrear;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,7 +29,7 @@ public class Enemigo : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.SetDestination(puntos[puntoActual].position);
 
-        
+        escala = barraVida.rectTransform.sizeDelta.x / vida;
 
         jugador = FindAnyObjectByType<JugadorControl>().transform;
     }
@@ -74,6 +80,11 @@ public class Enemigo : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        barraVida.transform.parent.LookAt(Camera.main.transform.position);  
+    }
+
     public bool PuedeVerJugador()
     {
         //Calculo la dirección en la que está el jugador restando su posición
@@ -120,5 +131,22 @@ public class Enemigo : MonoBehaviour
             jugadorControl.QuitarVida();
         }
         
+    }
+
+    public void QuitarVida(int cantidadARestar)
+    {
+        vida-=cantidadARestar;
+        barraVida.rectTransform.sizeDelta = new Vector2(vida * escala, barraVida.rectTransform.sizeDelta.y);
+        if(vida <= 0)
+        {
+            float probabilidad = Random.Range(0f, 1f);
+            Debug.Log("Probabilidad de soltar " +  probabilidad);   
+            if(probabilidad >= 0.4)
+            {
+                Instantiate(objetosCrear[Random.Range(0, objetosCrear.Length)], transform.position, Quaternion.identity);
+            }
+
+            Destroy(gameObject);    
+        }
     }
 }

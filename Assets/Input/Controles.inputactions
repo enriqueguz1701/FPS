@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "Controles",
     "maps": [
         {
@@ -37,6 +38,15 @@
                     "type": "Button",
                     "id": "4bdc7cfd-8b70-4e7c-945f-0245d59dad76",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Correr",
+                    "type": "Button",
+                    "id": "a12e0837-44ef-4c89-852f-9feab65f6c43",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -216,6 +226,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Recargar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24e3fa96-f29f-46d1-90ca-422e87dba03f",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Correr",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
