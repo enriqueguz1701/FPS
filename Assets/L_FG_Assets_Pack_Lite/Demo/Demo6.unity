@@ -3640,26 +3640,23 @@ MonoBehaviour:
   movimientoVertical: {x: 0, y: 0, z: 0}
   alturaSalto: 10
   gravedad: 9.8
-  camara: {fileID: 0}
-  distanciaDisparo: 10
-  particulasDisparo: {fileID: 1259118960}
-  explosion: {fileID: 100010, guid: e0609132424a24844b1d53ad3d704fd9, type: 3}
-  efectoDisparo: {fileID: 100002, guid: 957385c45b877e645a128e11a3efb2f9, type: 3}
   estaEnSuelo: 0
   abajo: {x: 0, y: -0.96, z: 0}
   radioEsfera: 0.7
   layerSuelo:
     serializedVersion: 2
     m_Bits: 64
-  balas: 20
-  totalBalas: 15
-  balasTexto: {fileID: 828150423}
-  totalBalasTexto: {fileID: 1717219825}
   vida: 20
-  materialArma: {fileID: 2100000, guid: d54b662fbb5a7724d8ee892446325e65, type: 2}
+  materialArma:
+  - {fileID: 2100000, guid: d54b662fbb5a7724d8ee892446325e65, type: 2}
+  - {fileID: 2100000, guid: d54b662fbb5a7724d8ee892446325e65, type: 2}
+  imagenNegro: {fileID: 526117115}
+  armaActiva: 0
   rojo: {r: 1, g: 0, b: 0, a: 1}
   verde: {r: 0, g: 1, b: 0, a: 1}
   arma1: {fileID: 1363306316}
+  tengoArma1: 0
+  tengoArma2: 1
   arma2: {fileID: 1034029291}
 --- !u!114 &147635165
 MonoBehaviour:
@@ -3720,8 +3717,20 @@ MonoBehaviour:
     m_ActionName: 'Jugador/Salto[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 147635164}
-        m_TargetAssemblyTypeName: JugadorControl, Assembly-CSharp
+      - m_Target: {fileID: 1704211645}
+        m_TargetAssemblyTypeName: ArmaControl, Assembly-CSharp
+        m_MethodName: Disparar
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1034029297}
+        m_TargetAssemblyTypeName: ArmaControl, Assembly-CSharp
         m_MethodName: Disparar
         m_Mode: 0
         m_Arguments:
@@ -3740,8 +3749,20 @@ MonoBehaviour:
     m_ActionName: 'Camara/Movimiento[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 147635164}
-        m_TargetAssemblyTypeName: JugadorControl, Assembly-CSharp
+      - m_Target: {fileID: 1704211645}
+        m_TargetAssemblyTypeName: ArmaControl, Assembly-CSharp
+        m_MethodName: Recargar
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1034029297}
+        m_TargetAssemblyTypeName: ArmaControl, Assembly-CSharp
         m_MethodName: Recargar
         m_Mode: 0
         m_Arguments:
@@ -3770,6 +3791,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a12e0837-44ef-4c89-852f-9feab65f6c43
     m_ActionName: 'Jugador/Correr[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 147635164}
+        m_TargetAssemblyTypeName: JugadorControl, Assembly-CSharp
+        m_MethodName: Siguiente
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 85326e17-f418-4d63-9cee-7f439865b9a3
+    m_ActionName: 'Jugador/Siguiente[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 147635164}
+        m_TargetAssemblyTypeName: JugadorControl, Assembly-CSharp
+        m_MethodName: Anterior
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 842ff8e0-78ad-4073-b094-de5655f1398e
+    m_ActionName: 'Jugador/Anterior[/Keyboard/2]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Jugador
@@ -4856,8 +4909,8 @@ GameObject:
   - component: {fileID: 197022140}
   - component: {fileID: 197022139}
   m_Layer: 0
-  m_Name: r
-  m_TagString: Untagged
+  m_Name: Cabeza
+  m_TagString: Cabeza
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4896,8 +4949,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.7859787, y: 3.3250737, z: 2.0742064}
+  m_Center: {x: 0.0064431974, y: 1.162537, z: -0.53710395}
 --- !u!23 &197022140
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5013,7 +5066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5021,7 +5074,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
       insertIndex: -1
       addedObject: {fileID: 759439971}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1034029297}
   m_SourcePrefab: {fileID: 100100000, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
 --- !u!1 &202230306
 GameObject:
@@ -6758,7 +6814,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -6785,10 +6841,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.63446045
+  m_Height: 1.4244951
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.00007247925, y: -0.28775245, z: 0}
 --- !u!23 &303095542
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6889,6 +6945,9 @@ MonoBehaviour:
   vida: 100
   barraVida: {fileID: 2142133911}
   escala: 0
+  objetosCrear:
+  - {fileID: 1898806697516805600, guid: 2d26e9750e8c7d34ba8eceb6c849db29, type: 3}
+  - {fileID: 7473785573263446395, guid: 6372dc5a25fd1c74f83aa6eb686a29d2, type: 3}
 --- !u!4 &303486115 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 9bfa0c2985bcdca469da2285e0a27429, type: 3}
@@ -11397,6 +11456,81 @@ Transform:
   - {fileID: 1205680935}
   m_Father: {fileID: 636589998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &526117113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 526117114}
+  - component: {fileID: 526117116}
+  - component: {fileID: 526117115}
+  m_Layer: 5
+  m_Name: ImagenNegro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &526117114
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526117113}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 824742314}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &526117115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526117113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &526117116
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526117113}
+  m_CullTransparentMesh: 1
 --- !u!4 &527683157 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: c09292932fbc61c4e9aaafe01bc37329, type: 3}
@@ -11597,118 +11731,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: ee310940381d5f3409a44456d948e8e3, type: 3}
   m_PrefabInstance: {fileID: 805299198}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &534811714
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 534811718}
-  - component: {fileID: 534811717}
-  - component: {fileID: 534811716}
-  - component: {fileID: 534811715}
-  m_Layer: 0
-  m_Name: Vida
-  m_TagString: Vida
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &534811715
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534811714}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &534811716
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534811714}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 43ac1723dcd06964582eb5a85a47ed18, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &534811717
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534811714}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &534811718
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534811714}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.28, y: 0.66, z: -16.11}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &535291483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24292,6 +24314,7 @@ RectTransform:
   - {fileID: 828150422}
   - {fileID: 1717219824}
   - {fileID: 832242280}
+  - {fileID: 526117114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -29242,6 +29265,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
   m_PrefabInstance: {fileID: 202065084}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1034029297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034029291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b93357cbe208c49bbd80248d777425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmaControl
+  camara: {fileID: 0}
+  distanciaDisparo: 10
+  particulasDisparo: {fileID: 1259118960}
+  esAutomatica: 0
+  explosion: {fileID: 100010, guid: e0609132424a24844b1d53ad3d704fd9, type: 3}
+  efectoDisparo: {fileID: 100002, guid: 957385c45b877e645a128e11a3efb2f9, type: 3}
+  balas: 20
+  totalBalas: 100
+  balasTexto: {fileID: 828150423}
+  totalBalasTexto: {fileID: 1717219825}
 --- !u!4 &1037632451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: ee310940381d5f3409a44456d948e8e3, type: 3}
@@ -45676,13 +45721,38 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1259118962}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1704211645}
   m_SourcePrefab: {fileID: 100100000, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
 --- !u!4 &1704211642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
   m_PrefabInstance: {fileID: 1704211641}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1704211645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363306316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b93357cbe208c49bbd80248d777425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmaControl
+  camara: {fileID: 0}
+  distanciaDisparo: 10
+  particulasDisparo: {fileID: 1259118960}
+  esAutomatica: 1
+  explosion: {fileID: 100010, guid: e0609132424a24844b1d53ad3d704fd9, type: 3}
+  efectoDisparo: {fileID: 100002, guid: 957385c45b877e645a128e11a3efb2f9, type: 3}
+  balas: 20
+  totalBalas: 100
+  balasTexto: {fileID: 828150423}
+  totalBalasTexto: {fileID: 1717219825}
 --- !u!4 &1705972004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 780d55bf443a9c74d91bf1291263a77a, type: 3}
@@ -58292,4 +58362,3 @@ SceneRoots:
   - {fileID: 824742314}
   - {fileID: 658408236}
   - {fileID: 634614158}
-  - {fileID: 534811718}

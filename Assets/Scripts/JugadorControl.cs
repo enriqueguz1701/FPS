@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.UI;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class JugadorControl : MonoBehaviour
@@ -17,44 +18,33 @@ public class JugadorControl : MonoBehaviour
     [SerializeField] Vector3 movimientoVertical;
     [SerializeField] float alturaSalto, gravedad;
 
-    [Header("Disparo")]
-    [SerializeField] RaycastHit raycast;
-    [SerializeField] Transform camara;
-    [SerializeField] float distanciaDisparo;
-    [SerializeField] ParticleSystem particulasDisparo;
-    Coroutine disparar;
-
-    [Header("Partículas")]
-    [SerializeField] GameObject explosion;
-    [SerializeField] GameObject efectoDisparo;
-
+  
+  
     [Header("Suelo")]
     [SerializeField] bool estaEnSuelo;
     [SerializeField] Vector3 abajo;
     [SerializeField] float radioEsfera;
     [SerializeField] LayerMask layerSuelo;
 
-    [Header("Cargador")]
-    [SerializeField] int balas = 20;
-    [SerializeField] int totalBalas = 100;
-    [SerializeField] TMP_Text balasTexto, totalBalasTexto;
-    Coroutine recargar;
+  
 
     [Header("Vida")]
     [SerializeField] int vida = 20;
-    [SerializeField] Material materialArma;
+    [SerializeField] Material[] materialArma;
+    [SerializeField] Image imagenNegro;
+    [SerializeField] int armaActiva;
     [SerializeField] Color rojo = Color.red;
     [SerializeField] Color verde = Color.green;
 
     [Header("Armas")]
     [SerializeField] GameObject arma1;
+    [SerializeField] bool tengoArma1, tengoArma2;
     [SerializeField] GameObject arma2;
 
     // Start is called before the first frame update
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        camara = Camera.main.transform;
         ActualizarUI();
     }
 
@@ -67,7 +57,7 @@ public class JugadorControl : MonoBehaviour
         movimientoVertical.y -= gravedad * Time.deltaTime;
         characterController.Move(movimientoVertical * Time.deltaTime);
 
-        materialArma.color = Color.Lerp(rojo, verde, vida / 20.0f);
+        //materialArma.color = Color.Lerp(rojo, verde, vida / 20.0f);
     }
 
     private void FixedUpdate()
@@ -89,24 +79,21 @@ public class JugadorControl : MonoBehaviour
         }
     }
 
-    public void Disparar(InputAction.CallbackContext context)
+    public void Siguiente(InputAction.CallbackContext context)
     {
-        if (context.started && balas > 0 && (arma1.activeInHierarchy || arma2.activeInHierarchy))
+        if (context.started && tengoArma1)
         {
-            disparar = StartCoroutine(GenerarDisparos());
-            if(recargar != null)
-            {
-                StopCoroutine(recargar);
-                recargar = null;
-            }
+            arma1.SetActive(true);
+            arma2.SetActive(false);
         }
+    }
 
-        if (context.canceled)
+    public void Anterior(InputAction.CallbackContext context)
+    {
+        if (context.started && tengoArma2)
         {
-            if(disparar != null)
-            {
-                StopCoroutine(disparar);
-            }
+            arma1.SetActive(false);
+            arma2.SetActive(true);
         }
     }
 
@@ -122,116 +109,35 @@ public class JugadorControl : MonoBehaviour
         }
     }
 
-    public IEnumerator GenerarDisparos()
-    {
-        while (balas > 0)
-        {
-            balas--;
-            if (balas <= 0)
-            {
-                recargar = StartCoroutine(CargarMunicion());
-                break;
-            }
-            Debug.DrawRay(camara.position, camara.forward, Color.red, 2.0f);
-            particulasDisparo.Play();
-            if (Physics.Raycast(camara.position, camara.forward, out raycast, distanciaDisparo))
-            {
-                if (raycast.transform.tag == "Destruir")
-                {
-                    Destroy(raycast.transform.gameObject);
-                    Instantiate(explosion, raycast.transform.position, raycast.transform.rotation);
-                }
-                else if (raycast.transform.tag == "Enemigo")
-                {
-                    //Poner el ? es para comprobar que el GetComponent<Enemigo>() no devuelva objeto nulo
-                    //Sería igual que si pongo:
-                    //Enemigo enemigo = raycast.transform.GetComponent<Enemigo>();
-                    //if(enemigo != null)
-                    //{
-                    //    enemigo.QuitarVida(15);
-                    //}
-                    raycast.transform.GetComponent<Enemigo>()?.QuitarVida(15);
-                }
-                else
-                {
-                    Debug.DrawRay(raycast.point, raycast.normal, Color.blue, 2.0f);
-
-                    Instantiate(efectoDisparo, raycast.point, Quaternion.FromToRotation(Vector3.forward, raycast.normal));
-                    //Quaternion rotacion = Quaternion.LookRotation(raycast.normal, Vector3.up);
-                    //Instantiate(efectoDisparo, raycast.point, rotacion);
-
-                }
-            }
-
-            ActualizarUI();
-            yield return new WaitForSeconds(0.5f);
-        }
-        Debug.Log("Me quedé sin balas");
-
-    }
-    public void Recargar(InputAction.CallbackContext context)
-    {
-        if (context.started && recargar == null)
-        {
-            recargar = StartCoroutine(CargarMunicion());
-            StopCoroutine(disparar);
-            disparar = null;
-        }
-    }
-
-    IEnumerator CargarMunicion()
-    {
-        int balasNecesarias = 20 - balas;
-        if (totalBalas >= balasNecesarias)
-        {
-            //balas = 20;
-            for (int i = balas; balas < 20; balas++)
-            {
-                totalBalas--;
-                ActualizarUI();
-                yield return new WaitForSeconds(0.2f);
-            }
-            //totalBalas -= balasNecesarias;
-        }
-        else if (totalBalas > 0)
-        {
-            //balas = totalBalas;
-            for (int i = totalBalas; totalBalas > 0; totalBalas--)
-            {
-                balas++;
-                ActualizarUI();
-                yield return new WaitForSeconds(0.2f);
-            }
-            //totalBalas = 0;
-        }
-        ActualizarUI();
-        recargar = null;
-    }
-
+ 
     public void QuitarVida()
     {
         vida--;
-        materialArma.color = Color.Lerp(rojo, verde, vida / 20.0f);
+        ActualizarUI();
     }
 
-    public void ActualizarUI()
+    void ActualizarUI()
     {
-        totalBalasTexto.text = totalBalas.ToString();
-        balasTexto.text = balas + "/20";
+        materialArma[armaActiva].color = Color.Lerp(rojo, verde, vida / 20.0f);
+        Debug.Log("Porcentaje negro: " + Mathf.Lerp(1, 0, vida / 20f));
+        imagenNegro.color = new Color(0, 0, 0, Mathf.Lerp(1, 0, vida / 20f));
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Municion")
         {
-            totalBalas += 10;
-            ActualizarUI();
+            //Con esta forma recargo balas en el arma que tengo activo
+            GetComponentInChildren<ArmaControl>().AumentarMunicion(10);
             Destroy(other.gameObject);
         }
         else if (other.transform.tag == "Arma")
         {
             Destroy(other.gameObject);
             arma1.SetActive(true);
+            arma2.SetActive(false);
+            tengoArma1 = true;
+            armaActiva = 0;
         }
         else if(other.transform.tag == "Vida")
         {
@@ -240,7 +146,7 @@ public class JugadorControl : MonoBehaviour
             {
                 vida = 20;
             }
-            materialArma.color = Color.Lerp(rojo, verde, vida / 20.0f);
+            ActualizarUI();
         }
     }
 

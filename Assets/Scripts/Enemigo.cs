@@ -63,12 +63,13 @@ public class Enemigo : MonoBehaviour
                 StopCoroutine(corrutinaAtacar);
             }
             
-            if (persiguiendoJugador)
+            if (persiguiendoJugador && agent.remainingDistance <= agent.stoppingDistance)
             {
-                agent.SetDestination(puntos[puntoActual].position);
+                    agent.SetDestination(puntos[puntoActual].position);
+                    persiguiendoJugador = false;                
             }
-            persiguiendoJugador = false;
-            if(agent.remainingDistance <= agent.stoppingDistance)
+            
+            if(!persiguiendoJugador && agent.remainingDistance <= agent.stoppingDistance)
             {
                 puntoActual++;
                 if (puntoActual == puntos.Length)
@@ -128,6 +129,7 @@ public class Enemigo : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1);
+            transform.LookAt(jugador);
             jugadorControl.QuitarVida();
         }
         

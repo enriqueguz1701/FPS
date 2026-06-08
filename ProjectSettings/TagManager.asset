@@ -10,6 +10,7 @@ TagManager:
   - Arma
   - Enemigo
   - Vida
+  - Cabeza
   layers:
   - Default
   - TransparentFX
